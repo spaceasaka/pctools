@@ -36,110 +36,9 @@ public class waveFile
         samplePerSec = sample;
     }
 
-    public List<double> load(String fname)
+    public void save(System.IO.Stream s, List<double> data)
     {
-        FileStream ifs = new FileStream(fname, FileMode.Open, FileAccess.Read);
-        BinaryReader br = new BinaryReader(ifs);
-
-        RIFFheader hed;
-        try {
-            hed.groupID = br.ReadBytes(4);
-            hed.chunkSize = br.ReadUInt32();
-            hed.riffType = br.ReadBytes(4);
-        }
-        catch (Exception ex){
-            br.Close();
-            return null;
-        }
-        Encoding enc = Encoding.GetEncoding("Shift_JIS");
-        if (!(hed.groupID.Equals(enc.GetBytes("RIFF")) && hed.riffType.Equals(enc.GetBytes("WAVE")))) {
-            br.Close();
-            return null;
-        }
-
-        FormatChunk fmt;
-        try {
-            fmt.chunkID = br.ReadBytes(4);
-            fmt.chunkSize = br.ReadUInt32();
-            fmt.wFormatTag = br.ReadInt16();
-            fmt.wChannels = br.ReadUInt16();
-            fmt.dwSamplesPerSec = br.ReadUInt32();
-            fmt.dwAvgBytesPerSec = br.ReadUInt32();
-            fmt.wBlockAlign = br.ReadUInt16();
-            fmt.wBitsPerSample = br.ReadUInt16();
-        }
-        catch (Exception ex) {
-            br.Close();
-            return null;
-        }
-        if (!fmt.chunkID.Equals(enc.GetBytes("fmt "))) {
-            br.Close();
-            return null;
-        }
-
-        DataChunk dat;
-        try {
-            dat.chunkID = br.ReadBytes(4);
-            dat.chunkSize = br.ReadUInt32();
-        }
-        catch (Exception ex) {
-            br.Close();
-            return null;
-        }
-        if (!dat.chunkID.Equals(enc.GetBytes("data"))) {
-            br.Close();
-            return null;
-        }
-
-        bytesPerSample = fmt.wBlockAlign;
-        samplePerSec = fmt.dwSamplesPerSec;
-
-        List<double> data;
-        if (bytesPerSample == 1) {
-            uint count = dat.chunkSize / bytesPerSample;
-
-            data = new List<double>();
-            data.Clear();
-            try {
-                for (int i = 0; i < count; i++) {
-                    byte n = br.ReadByte();
-                    data.Add(((double)n * 2 / byte.MaxValue) - 1);
-                }
-            }
-            catch (Exception ex) {
-                br.Close();
-                return null;
-            }
-        }
-        else if (bytesPerSample == 2) {
-            uint count = dat.chunkSize / bytesPerSample;
-
-            data = new List<double>();
-            data.Clear();
-            try {
-                for (int i = 0; i < count; i++) {
-                    short n = br.ReadInt16();
-                    data.Add((double)n / short.MaxValue);
-                }
-            }
-            catch (Exception ex) {
-                br.Close();
-                return null;
-            }
-
-        }
-        else {
-            br.Close();
-            return null;
-        }
-        br.Close();
-        return data;
-    }
-
-    public void save(String fname, List<double> data)
-    {
-	    FileStream ofs = new FileStream(fname, FileMode.Create, FileAccess.Write);
-        BinaryWriter bw = new BinaryWriter(ofs);
+        BinaryWriter bw = new BinaryWriter(s);
 
         Encoding enc = Encoding.GetEncoding("Shift_JIS");
 
@@ -159,12 +58,13 @@ public class waveFile
         bw.Write(enc.GetBytes("data"));
         bw.Write((uint)(data.Count * bytesPerSample));
 
-        if (bytesPerSample == 1) {
+        if (bytesPerSample == 1)
+        {
             foreach (double x in data) bw.Write((byte)(byte.MaxValue * (x + 1) / 2));
         }
-        else if (bytesPerSample == 2) {
+        else if (bytesPerSample == 2)
+        {
             foreach (double x in data) bw.Write((short)(short.MaxValue * x));
         }
-        ofs.Close();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
+using System.Media;
 using System.Collections.Generic;
 
 namespace dtmf
@@ -12,6 +13,27 @@ namespace dtmf
         public frmMain()
         {
             InitializeComponent();
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (!check_dtmf_string(txtNumber.Text))
+            {
+                MessageBox.Show("Tel番号が正しくありません", "DTMF", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            List<double> data = dtmf_run(txtNumber.Text, 0.15);
+
+            MemoryStream stm = new MemoryStream();
+            waveFile wf = new waveFile(1, fsample);
+            wf.save(stm, data);
+            stm.Position = 0;
+
+            SoundPlayer player = new SoundPlayer(stm);
+            player.Play();
+            stm.Close();
+            data.Clear();
         }
 
         private void btnCteate_Click(object sender, EventArgs e)
@@ -34,8 +56,11 @@ namespace dtmf
             {
                 waveFile wf = new waveFile(1, fsample);
                 List<double> data = dtmf_run(txtNumber.Text, 0.15);
-                wf.save(fd.FileName, data);
-                data = null;
+
+                FileStream ofs = new FileStream(fd.FileName, FileMode.Create, FileAccess.Write);
+                wf.save(ofs, data);
+                ofs.Close();
+                data.Clear();
             }
         }
 

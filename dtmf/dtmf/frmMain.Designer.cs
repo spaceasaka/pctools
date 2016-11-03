@@ -31,6 +31,7 @@
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCteate = new System.Windows.Forms.Button();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtNumber
@@ -51,19 +52,30 @@
             // 
             // btnCteate
             // 
-            this.btnCteate.Location = new System.Drawing.Point(70, 66);
+            this.btnCteate.Location = new System.Drawing.Point(50, 93);
             this.btnCteate.Name = "btnCteate";
-            this.btnCteate.Size = new System.Drawing.Size(79, 24);
+            this.btnCteate.Size = new System.Drawing.Size(154, 24);
             this.btnCteate.TabIndex = 2;
-            this.btnCteate.Text = "WAV作成";
+            this.btnCteate.Text = "WAVファイルの作成...";
             this.btnCteate.UseVisualStyleBackColor = true;
             this.btnCteate.Click += new System.EventHandler(this.btnCteate_Click);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(51, 57);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(66, 22);
+            this.btnPlay.TabIndex = 3;
+            this.btnPlay.Text = "聞く";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(243, 129);
+            this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnCteate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNumber);
@@ -79,6 +91,7 @@
         private System.Windows.Forms.TextBox txtNumber;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCteate;
+        private System.Windows.Forms.Button btnPlay;
     }
 }
 

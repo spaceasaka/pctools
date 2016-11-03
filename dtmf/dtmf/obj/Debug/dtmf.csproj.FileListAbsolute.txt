@@ -25,3 +25,12 @@ D:\software\radio\dtmf\dtmf\obj\Debug\dtmf.csprojResolveAssemblyReference.cache
 D:\software\radio\dtmf\dtmf\obj\Debug\dtmf.frmMain.resources
 D:\software\radio\dtmf\dtmf\obj\Debug\dtmf.Properties.Resources.resources
 D:\software\radio\dtmf\dtmf\obj\Debug\dtmf.csproj.GenerateResource.Cache
+D:\github\pctools\dtmf\dtmf\bin\Debug\dtmf.exe.config
+D:\github\pctools\dtmf\dtmf\obj\Debug\dtmf.exe
+D:\github\pctools\dtmf\dtmf\obj\Debug\dtmf.pdb
+D:\github\pctools\dtmf\dtmf\bin\Debug\dtmf.exe
+D:\github\pctools\dtmf\dtmf\bin\Debug\dtmf.pdb
+D:\github\pctools\dtmf\dtmf\obj\Debug\dtmf.csprojResolveAssemblyReference.cache
+D:\github\pctools\dtmf\dtmf\obj\Debug\dtmf.frmMain.resources
+D:\github\pctools\dtmf\dtmf\obj\Debug\dtmf.Properties.Resources.resources
+D:\github\pctools\dtmf\dtmf\obj\Debug\dtmf.csproj.GenerateResource.Cache
