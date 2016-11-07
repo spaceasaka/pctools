@@ -18,3 +18,13 @@ D:\software\radio\afsk\afsk\obj\Debug\afsk.frmMain.resources
 D:\software\radio\afsk\afsk\obj\Debug\afsk.frmSettings.resources
 D:\software\radio\afsk\afsk\obj\Debug\afsk.Properties.Resources.resources
 D:\software\radio\afsk\afsk\obj\Debug\afsk.csproj.GenerateResource.Cache
+D:\github\pctools\afsk\afsk\bin\Debug\afsk.exe.config
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.exe
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.pdb
+D:\github\pctools\afsk\afsk\bin\Debug\afsk.exe
+D:\github\pctools\afsk\afsk\bin\Debug\afsk.pdb
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.csprojResolveAssemblyReference.cache
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.frmMain.resources
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.frmSettings.resources
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.Properties.Resources.resources
+D:\github\pctools\afsk\afsk\obj\Debug\afsk.csproj.GenerateResource.Cache

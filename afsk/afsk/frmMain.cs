@@ -19,19 +19,64 @@ namespace afsk
             InitializeComponent();
         }
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private void btnSettings_Click(object sender, EventArgs e)
         {
-            Stream stm = make_wave();
-            if (stm != null)
+            frmSettings dlg = new frmSettings();
+
+            dlg.preFlags = nPreFlags;
+            dlg.postFlags = nPostFlags;
+            dlg.destination = destination;
+            dlg.source = source;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
-                SoundPlayer player = new SoundPlayer(stm);
-                player.Play();
+                nPreFlags = dlg.preFlags;
+                nPostFlags = dlg.postFlags;
+                destination = dlg.destination;
+                source = dlg.source;
             }
         }
 
-        private Stream make_wave()
+        private void btnPlay_Click(object sender, EventArgs e)
         {
-            string text = txtMessage.Text;
+            ax25wave ax25 = make_wave(txtMessage.Text);
+            if (ax25 != null)
+            {
+                waveFile wc = new waveFile(1, ax25wave.SAMPLE);
+                MemoryStream stm = new MemoryStream();
+                wc.save(stm, ax25.wave_data);
+                stm.Position = 0;
+                SoundPlayer player = new SoundPlayer(stm);
+                player.Play();
+                stm.Close();
+            }
+        }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            ax25wave ax25 = make_wave(txtMessage.Text);
+            if (ax25 != null)
+            {
+                SaveFileDialog fd = new SaveFileDialog();
+
+                fd.FileName = "新しいファイル.wav";
+                fd.InitialDirectory = Directory.GetCurrentDirectory();
+                fd.Filter = "WAVファイル(*.wav)|*.wav|すべてのファイル(*.*)|*.*";
+                fd.FilterIndex = 1;
+                fd.Title = "保存先のファイルを選択してください";
+
+                if (fd.ShowDialog() == DialogResult.OK)
+                {
+                    waveFile wc = new waveFile(1, ax25wave.SAMPLE);
+                    FileStream ofs = new FileStream(fd.FileName, FileMode.Create, FileAccess.Write);
+                    wc.save(ofs, ax25.wave_data);
+                    ofs.Close();
+                }        
+            }
+        }
+
+        private ax25wave make_wave(string text)
+        {
             if (text.Length <= 0) return null;
 
             ax25wave ax25 = new ax25wave();     /* Waveデータの生成 */
@@ -49,11 +94,7 @@ namespace afsk
             for (int i = 0; i < nPostFlags; i++) ax25.send_flag_nrzi();
             ax25.end_sending();
 
-            waveFile wc = new waveFile(1, ax25wave.SAMPLE);
-            MemoryStream stm = new MemoryStream();
-            wc.save(stm, ax25.wave_data);
-            stm.Position = 0;
-            return stm;
+            return ax25;
         }
 
         private byte[] make_address(string csign, byte ssid)
@@ -75,24 +116,6 @@ namespace afsk
             }
             obj[6] = ssid;
             return obj;
-        }
-
-        private void btnSettings_Click(object sender, EventArgs e)
-        {
-            frmSettings dlg = new frmSettings();
-
-            dlg.preFlags = nPreFlags;
-            dlg.postFlags = nPostFlags;
-            dlg.destination = destination;
-            dlg.source = source;
-
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                nPreFlags = dlg.preFlags;
-                nPostFlags = dlg.postFlags;
-                destination = dlg.destination;
-                source =  dlg.source;
-            }
         }
     }
 }
